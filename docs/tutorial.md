@@ -64,10 +64,12 @@ The exception leaves the connection context and rolls back every preceding write
 
 ```python
 before = db.snapshot()
-response = api.create_order(items=[
-    {"sku": "QA-NOTEBOOK", "quantity": 2},
-    {"sku": "QA-PEN", "quantity": 21},
-])
+response = api.create_order(
+    items=[
+        {"sku": "QA-NOTEBOOK", "quantity": 2},
+        {"sku": "QA-PEN", "quantity": 21},
+    ]
+)
 assert response.status_code == 409
 assert db.snapshot() == before
 ```

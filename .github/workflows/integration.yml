@@ -46,11 +46,12 @@ jobs:
           python -m ruff check .
           python -m ruff format --check .
       - name: Run real HTTP and PostgreSQL integration checks
+        id: tests
         env:
           QA_DATABASE_URL: postgresql://qa_user:qa_demo_password@127.0.0.1:${{ job.services.postgres.ports[5432] }}/qa_lab
         run: python -m pytest -v
       - name: Preserve JUnit and failure investigation evidence
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.tests.outcome != 'skipped' }}
         uses: actions/upload-artifact@v7.0.2
         with:
           name: api-postgresql-evidence
