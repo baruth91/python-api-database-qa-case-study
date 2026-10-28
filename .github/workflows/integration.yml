@@ -32,8 +32,6 @@ jobs:
           --health-interval 2s
           --health-timeout 3s
           --health-retries 20
-    env:
-      QA_DATABASE_URL: postgresql://qa_user:qa_demo_password@127.0.0.1:${{ job.services.postgres.ports[5432] }}/qa_lab
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
@@ -48,6 +46,8 @@ jobs:
           python -m ruff check .
           python -m ruff format --check .
       - name: Run real HTTP and PostgreSQL integration checks
+        env:
+          QA_DATABASE_URL: postgresql://qa_user:qa_demo_password@127.0.0.1:${{ job.services.postgres.ports[5432] }}/qa_lab
         run: python -m pytest -v
       - name: Preserve JUnit and failure investigation evidence
         if: ${{ !cancelled() }}
