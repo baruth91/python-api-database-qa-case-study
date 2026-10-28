@@ -5,11 +5,22 @@
 | Environment | Scope | Result |
 | --- | --- | --- |
 | Windows, Python 3.13.15, PostgreSQL 18.6 portable | 21 real HTTP/database cases | Final baseline passed: 21 passed in 17.18 seconds; Ruff and pip check passed |
-| Ubuntu 24.04, Python 3.13.15, pinned PostgreSQL 18.6 image | Same suite and Ruff checks | Pending first published run |
+| Ubuntu 24.04, Python 3.13.15, pinned PostgreSQL 18.6 image | Same suite and Ruff checks | Passed: 21 passed in 10.42 seconds; lint, format and dependency compatibility checks passed |
 
 The suite has 13 API cases and eight database/SQL cases, including parameterized
 inputs. All cases use a new generated schema. Windows PostgreSQL was prepared from
 the EDB archive with pinned SHA-256; Compose is supplied but was not used locally.
+
+Verified hosted run: [40719981385](https://github.com/baruth91/python-api-database-qa-case-study/actions/runs/40719981385),
+source commit `553d874`. The complete job took about 47 seconds, including database
+startup, setup and teardown. The JUnit artifact was successfully uploaded. Timings
+are observations, not performance targets.
+
+Two earlier hosted attempts stopped before tests: an unavailable expression
+context for the dynamic service port, then formatting of a newly added tutorial
+snippet. Both were corrected before the successful run; no product assertions were
+removed or bypassed. The hosted database container and the local portable process
+were stopped after verification.
 
 ## Controlled failure and artifact check
 
